@@ -1,0 +1,19 @@
+
+CREATE TRIGGER trg_end_of_tour
+ON turns
+AFTER UPDATE
+AS
+BEGIN
+    IF EXISTS (SELECT * FROM inserted WHERE end_time IS NOT NULL)
+    BEGIN
+        EXEC COMPLETE_TOUR(@TOUR_ID, @PARTY_ID);
+    END
+END;
+
+CREATE TRIGGER trg_username_to_lower
+ON players
+AFTER INSERT
+AS
+BEGIN
+    EXEC USERNAME_TO_LOWER();
+END;
